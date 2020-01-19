@@ -1,0 +1,235 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>RESTful API &#8212; Yeti  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Development environment setup" href="development-environment.html" />
+    <link rel="prev" title="Yeticli - the Yeti CLI" href="cli.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="restful-api">
+<span id="restful-api"></span><h1>RESTful API<a class="headerlink" href="#restful-api" title="Permalink to this headline">¶</a></h1>
+<p>Yeti is built around a restful HTTP API. Everything you can do from the web
+frontend you can also do through a couple of well-formed <code class="docutils literal notranslate"><span class="pre">curl</span></code> or <code class="docutils literal notranslate"><span class="pre">HTTPie</span></code>
+requests.</p>
+<div class="section" id="installing-httpie">
+<span id="installing-httpie"></span><h2>Installing HTTPie<a class="headerlink" href="#installing-httpie" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://httpie.org/">HTTPie</a> is a tiny CLI utility that we’ll use instead of
+<code class="docutils literal notranslate"><span class="pre">curl</span></code>. It supports easy sending of data and JSON requests, and nicely displays
+JSON output::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># macOS
+$ brew install httpie
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-new-objects">
+<span id="creating-new-objects"></span><h2>Creating new objects<a class="headerlink" href="#creating-new-objects" title="Permalink to this headline">¶</a></h2>
+<p>TODO</p>
+</div>
+<div class="section" id="searching-and-filtering">
+<span id="searching-and-filtering"></span><h2>Searching and filtering<a class="headerlink" href="#searching-and-filtering" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="api-entities-indicators-filter">
+<span id="api-entities-indicators-filter"></span><h3><code class="docutils literal notranslate"><span class="pre">/api/{entities,indicators}/filter/</span></code><a class="headerlink" href="#api-entities-indicators-filter" title="Permalink to this headline">¶</a></h3>
+<p>You can search for <code class="docutils literal notranslate"><span class="pre">entities</span></code> or <code class="docutils literal notranslate"><span class="pre">indicators</span></code> by providing
+<code class="docutils literal notranslate"><span class="pre">name</span></code> and <code class="docutils literal notranslate"><span class="pre">type</span></code> parameters.</p>
+<p><strong>Method and endpoint</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">POST</span> <span class="pre">/api/{entities,indicators}/filter/</span></code></li>
+</ul>
+<p><strong>JSON body</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code>: String, name to filter on (emtpy string to list all items)</li>
+<li><code class="docutils literal notranslate"><span class="pre">type</span></code>: String, type to filter on (these are STIX 2 types)</li>
+</ul>
+<p><strong>Response</strong></p>
+<p>List of JSON-encoded entities / indicators. Take a look at the <a class="reference external" href="https://docs.oasis-open.org/cti/stix/v2.0/stix-v2.0-part2-stix-objects.html">STIX 2 reference</a>
+for different fields in each type of object.</p>
+<p><em>Example: Get all entities which have the substring “Rundll32” in their name
+and has <code class="docutils literal notranslate"><span class="pre">type</span></code> equal to “attack-pattern”</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ http -j -vv POST http://localhost:5000/api/entities/filter/ name=&#39;Rundll32&#39; type=&#39;attack-pattern&#39;
+POST /api/entities/filter/ HTTP/1.1
+Accept: application/json, */*
+Accept-Encoding: gzip, deflate
+Connection: keep-alive
+Content-Length: 46
+Content-Type: application/json
+Host: localhost:5000
+User-Agent: HTTPie/0.9.9
+
+{
+    &quot;name&quot;: &quot;Rundll32&quot;,
+    &quot;type&quot;: &quot;attack-pattern&quot;
+}
+
+HTTP/1.0 200 OK
+Content-Length: 3621
+Content-Type: application/json
+Date: Mon, 15 Oct 2018 13:38:06 GMT
+Server: Werkzeug/0.14.1 Python/3.6.5
+
+[
+    {
+        [...]
+        &quot;modified&quot;: &quot;2018-04-18T17:59:24.739Z&quot;,
+        &quot;name&quot;: &quot;Rundll32&quot;,
+        &quot;type&quot;: &quot;attack-pattern&quot;,
+        [...]
+    }
+]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="exploring-the-yeti-graph">
+<span id="exploring-the-yeti-graph"></span><h2>Exploring the Yeti graph<a class="headerlink" href="#exploring-the-yeti-graph" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="api-entities-indicators-id-neighbors">
+<span id="api-entities-indicators-id-neighbors"></span><h3><code class="docutils literal notranslate"><span class="pre">/api/{entities,indicators}/{id}/neighbors/</span></code><a class="headerlink" href="#api-entities-indicators-id-neighbors" title="Permalink to this headline">¶</a></h3>
+<p>Given an object, get all objects that are connected to it. These connections are
+represented by <a class="reference external" href="https://docs.oasis-open.org/cti/stix/v2.0/cs01/part2-stix-objects/stix-v2.0-cs01-part2-stix-objects.html#_Toc496714337">STIX 2 Relationship</a> objects and have all expected <a class="reference external" href="https://docs.oasis-open.org/cti/stix/v2.0/cs01/part2-stix-objects/stix-v2.0-cs01-part2-stix-objects.html#_Toc496714340">properties</a>.</p>
+<p><strong>Method and endpoint</strong></p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">GET</span> <span class="pre">/api/{entities,indicators}/{id}/neighbors/</span></code></li>
+</ul>
+<p><strong>Response</strong></p>
+<p>A JSON object with two keys:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">edges</span></code>: A list of serialized STIX 2 Relationship objects.</li>
+<li><code class="docutils literal notranslate"><span class="pre">vertices</span></code>: An <code class="docutils literal notranslate"><span class="pre">{id:</span> <span class="pre">object}</span></code> dictionary containing all neighboring objects.</li>
+</ul>
+<p>You can reconstruct the graph based on the different object IDs in each item contained in the <code class="docutils literal notranslate"><span class="pre">edge</span></code> key.</p>
+<p><em>Example: Get all neighbors for the object <code class="docutils literal notranslate"><span class="pre">attack-pattern--322bad5a-1c49-4d23-ab79-76d641794afa</span></code></em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ http -vv GET http://localhost:5000/api/entities/attack-pattern--322bad5a-1c49-4d23-ab79-76d641794afa/neighbors/
+HTTP/1.0 200 OK
+Content-Length: 50952
+Content-Type: application/json
+Date: Mon, 15 Oct 2018 13:51:03 GMT
+Server: Werkzeug/0.14.1 Python/3.6.5
+
+{
+&quot;edges&quot;: [...]
+&quot;vertices&quot;: {
+    &quot;course-of-action--d8787791-d22e-45bb-a9a8-251d8d0a1ff2&quot;: {...},
+    &quot;intrusion-set--16ade1aa-0ea1-4bb7-88cc-9079df2ae756&quot;: {...},
+    ...
+}
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Yeti</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Yeticli - the Yeti CLI</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">RESTful API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installing-httpie">Installing HTTPie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#creating-new-objects">Creating new objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#searching-and-filtering">Searching and filtering</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api-entities-indicators-filter"><code class="docutils literal notranslate"><span class="pre">/api/{entities,indicators}/filter/</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#exploring-the-yeti-graph">Exploring the Yeti graph</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#api-entities-indicators-id-neighbors"><code class="docutils literal notranslate"><span class="pre">/api/{entities,indicators}/{id}/neighbors/</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development-environment.html">Development environment setup</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="cli.html" title="previous chapter">Yeticli - the Yeti CLI</a></li>
+      <li>Next: <a href="development-environment.html" title="next chapter">Development environment setup</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Thomas Chopitea.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/api.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

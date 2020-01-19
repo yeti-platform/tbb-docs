@@ -1,0 +1,271 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Development environment setup &#8212; Yeti  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="yeticli - the Yeti CLI" href="yeticli.html" />
+    <link rel="prev" title="Running Yeti through Docker" href="docker.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="development-environment-setup">
+<span id="development-environment-setup"></span><h1>Development environment setup<a class="headerlink" href="#development-environment-setup" title="Permalink to this headline">¶</a></h1>
+<p>You want to contribute to Yeti! We’re so happy :) Here’s the best way to get
+you started.</p>
+<div class="section" id="fork-the-repo-and-clone-the-code">
+<span id="fork-the-repo-and-clone-the-code"></span><h2>Fork the repo and clone the code<a class="headerlink" href="#fork-the-repo-and-clone-the-code" title="Permalink to this headline">¶</a></h2>
+<p>We recommend you fork any repo you’re thinking of contributing to. This will create a new <code class="docutils literal notranslate"><span class="pre">github.com/&lt;YOUR</span> <span class="pre">USERNAME&gt;/yeti-platform</span></code> repo on which you can push changes and from which you can submit pull-requests.</p>
+<p>After forking the repo, just clone it::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ git clone https://github.com/&lt;YOUR USERNAME&gt;/yeti-platform
+$ cd yeti-platform
+</pre></div>
+</div>
+</div>
+<div class="section" id="install-dependencies">
+<span id="install-dependencies"></span><h2>Install dependencies<a class="headerlink" href="#install-dependencies" title="Permalink to this headline">¶</a></h2>
+<p>We use Pipenv to manage dependencies and virtual environments.
+You should use it, too!</p>
+<p>You can get it through <code class="docutils literal notranslate"><span class="pre">pip</span></code>::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install pipenv
+$ pipenv shell --python 3
+</pre></div>
+</div>
+<p>The second command will automagically create a Python 3 virtual environment
+and drop you into a shell that already has it activated</p>
+<p>Install dev dependencies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pipenv install --dev
+</pre></div>
+</div>
+<p>This will install all of Yeti’s dependencies <strong>plus</strong> its development
+dependencies in your new virtual environment.</p>
+</div>
+<div class="section" id="set-up-your-database-backend">
+<span id="set-up-your-database-backend"></span><h2>Set up your database backend<a class="headerlink" href="#set-up-your-database-backend" title="Permalink to this headline">¶</a></h2>
+<p>If you’re going to write code for Yeti, you’ll need to have an
+<a class="reference external" href="https://www.arangodb.com/">ArangoDB</a> service running on <code class="docutils literal notranslate"><span class="pre">localhost:8529</span></code>.</p>
+<div class="section" id="macos">
+<span id="macos"></span><h3>macOS<a class="headerlink" href="#macos" title="Permalink to this headline">¶</a></h3>
+<p>If you’re running macOS, odds are you’re using <a class="reference external" href="https://brew.sh/">brew</a>
+as your package manager:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ brew install arangodb
+$ /usr/local/opt/arangodb/sbin/arangod
+</pre></div>
+</div>
+<p>The first command will install ArangoDB in your system, the second will run an
+instance listening on the default port and default interfaces.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Setting up ArangoDB this way is dangerous for production use since it
+is not authenticated whatsoever; but it’s more than enough for development</p>
+</div>
+</div>
+<div class="section" id="linux-ubuntu-16-04">
+<span id="linux-ubuntu-16-04"></span><h3>Linux (Ubuntu 16.04)<a class="headerlink" href="#linux-ubuntu-16-04" title="Permalink to this headline">¶</a></h3>
+<p>Add the ArangoDB repo key to your install, update your packages and install everything as usual.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ wget https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/Release.key
+$ sudo apt-key add Release.key
+$ sudo apt-add-repository &#39;deb https://www.arangodb.com/repositories/arangodb3/xUbuntu_16.04/ /&#39;
+$ sudo apt-get update -y &amp;&amp; sudo apt-get install arangodb3 --allow-unauthenticated
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Setting up ArangoDB this way is dangerous for production use since it
+is not authenticated whatsoever; but it’s more than enough for development</p>
+</div>
+</div>
+</div>
+<div class="section" id="import-demo-data">
+<span id="import-demo-data"></span><h2>Import demo data<a class="headerlink" href="#import-demo-data" title="Permalink to this headline">¶</a></h2>
+<p>If you’re about to develop a new feature for Yeti, it might be useful to populate your database with some data.</p>
+<div class="section" id="import-a-taxii-feed">
+<span id="import-a-taxii-feed"></span><h3>Import a TAXII feed<a class="headerlink" href="#import-a-taxii-feed" title="Permalink to this headline">¶</a></h3>
+<p>Start by importing one of MITRE’s TAXIi feeds. ATT&amp;CK is a good start:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ yeticli taxii-import --server_url https://cti-taxii.mitre.org/taxii/
+https://cti-taxii.mitre.org/taxii/ has 3 collections:
+[0] Enterprise ATT&amp;CK: 95ecc380-afe9-11e4-9b6c-751b66dd541e
+[1] PRE-ATT&amp;CK: 062767bd-02d2-4b72-84ba-56caef0f8658
+[2] Mobile ATT&amp;CK: 2f669986-b40b-4423-b720-4396ca6a462b
+Pick one: 0
+Importing data from collection at: https://cti-taxii.mitre.org/stix/collections/95ecc380-afe9-11e4-9b6c-751b66dd541e/
+Fetching attack-pattern
+[...]
+</pre></div>
+</div>
+</div>
+<div class="section" id="add-users-to-the-database">
+<span id="add-users-to-the-database"></span><h3>Add users to the database<a class="headerlink" href="#add-users-to-the-database" title="Permalink to this headline">¶</a></h3>
+<p>You’ll also want to add users to your database:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ yetictl add-user admin@yourorg.com --admin
+</pre></div>
+</div>
+<p>or, if you haven’t installed the scripts:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ python ctl/yetictl.py add-user admin@yourorg.com --admin
+</pre></div>
+</div>
+<p>And follow the on-screen prompts.</p>
+</div>
+</div>
+<div class="section" id="running-the-frontend">
+<span id="running-the-frontend"></span><h2>Running the frontend<a class="headerlink" href="#running-the-frontend" title="Permalink to this headline">¶</a></h2>
+<p>Setting up the frontend for development is pretty straightforward. Yeti’s
+frontend is written in <a class="reference external" href="https://vuejs.org/">Vue.js</a> so you’re going to need
+<code class="docutils literal notranslate"><span class="pre">npm</span></code> to run it:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># macOS</span>
+$ brew install node
+
+<span class="c1"># Ubuntu</span>
+$ sudo apt install node
+</pre></div>
+</div>
+<p>To spin up a Vue.js development server (automatically reloads on each file
+change, which is quite handy), run these commands from the directory in which
+you cloned Yeti::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd yeti/web/frontend
+$ npm run dev
+</pre></div>
+</div>
+<p>This will build and start a webserver listening on <code class="docutils literal notranslate"><span class="pre">localhost:8080</span></code> for connections.</p>
+</div>
+<div class="section" id="building-documentation">
+<span id="building-documentation"></span><h2>Building documentation<a class="headerlink" href="#building-documentation" title="Permalink to this headline">¶</a></h2>
+<p>Of course, you’ll want to write documentation for all the cool new features
+you’re about to bring in 😉. We use
+<a class="reference external" href="http://www.sphinx-doc.org/en/master/">Sphinx</a> to generate our documentation,
+which is written Markdown (with some reST directives here and there).</p>
+<p>Once you’ve updated anything you needed in the <code class="docutils literal notranslate"><span class="pre">/docs</span></code> directory, just run the
+following:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># get into the right directory</span>
+$ <span class="nb">cd</span> docs
+
+<span class="c1"># builds the HTML documentation</span>
+$ make html
+
+<span class="c1"># opens the file for viewing (MacOS)</span>
+$ open _build/html/index.html
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Yeti</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="docker.html">Running Yeti through Docker</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Development environment setup</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#fork-the-repo-and-clone-the-code">Fork the repo and clone the code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-dependencies">Install dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#set-up-your-database-backend">Set up your database backend</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#macos">macOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linux-ubuntu-16-04">Linux (Ubuntu 16.04)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#import-demo-data">Import demo data</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#import-a-taxii-feed">Import a TAXII feed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-users-to-the-database">Add users to the database</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#running-the-frontend">Running the frontend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#building-documentation">Building documentation</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="yeticli.html"><code class="docutils literal notranslate"><span class="pre">yeticli</span></code> - the Yeti CLI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="yetictl.html"><code class="docutils literal notranslate"><span class="pre">yetictl</span></code> - Managing your Yeti server</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">RESTful API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="python_api.html">Python API</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="docker.html" title="previous chapter">Running Yeti through Docker</a></li>
+      <li>Next: <a href="yeticli.html" title="next chapter"><code class="docutils literal notranslate"><span class="pre">yeticli</span></code> - the Yeti CLI</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018, Thomas Chopitea.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.7</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/development-environment.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
